@@ -6,3 +6,6 @@ vet: fmt
 
 build: vet
 	go build -o ./server
+
+serve: build
+	./server
