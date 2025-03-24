@@ -74,6 +74,7 @@ func CreateRouter(server Server) *mux.Router {
 	r.HandleFunc("/api/auth/create", server.PostApiCreateUser).Methods("POST")
 	r.HandleFunc("/api/auth/login", server.PostApiLoginUser).Methods("POST")
 	r.HandleFunc("/api/auth/logout", server.LogoutUser).Methods("GET")
+	r.HandleFunc("/api/secret", server.GetApiSecretPage).Methods("GET")
 
 	return r
 }
