@@ -55,6 +55,7 @@ func CreateRouter(server Server) *mux.Router {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/api/auth/create", server.PostApiCreateUser).Methods("POST")
+	r.HandleFunc("/api/auth/login", server.PostApiLoginUser).Methods("POST")
 
 	return r
 }
