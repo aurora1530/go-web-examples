@@ -7,12 +7,14 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 type Server struct {
 	DB *sql.DB
+	Store *sessions.CookieStore
 }
 
 func openDB() (*sql.DB, error) {
@@ -41,6 +43,17 @@ func openDB() (*sql.DB, error) {
 	return db, nil
 }
 
+func createSessionStore() *sessions.CookieStore {
+	key := os.Getenv("SESSION_KEY")
+	if key == "" {
+		panic("SESSION_KEY is not set")
+	}
+
+	store := sessions.NewCookieStore([]byte(key))
+
+	return store
+}
+
 func NewServer() Server {
 	db, err := openDB()
 	if err != nil {
@@ -49,7 +62,9 @@ func NewServer() Server {
 
 	fmt.Println("Successfully connected to the database")
 
-	return Server{DB: db}
+	store := createSessionStore()
+
+	return Server{DB: db, Store: store}
 }
 
 func CreateRouter(server Server) *mux.Router {
