@@ -7,7 +7,6 @@ import (
 
 func (s Server) PostApiLoginUser(w http.ResponseWriter, r *http.Request){
 	// get username and password from form
-
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
@@ -41,6 +40,17 @@ func (s Server) PostApiLoginUser(w http.ResponseWriter, r *http.Request){
 	ok := VerifyPassword(hashed, password)
 	if !ok {
 		http.Error(w, "Invalid ether username or password", http.StatusUnauthorized)
+		return
+	}
+
+	session, _ := s.Store.Get(r, "session")
+	session.Values["username"] = username
+	session.Values["authenticated"] = true
+
+	err = session.Save(r, w)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Error saving session", http.StatusInternalServerError)
 		return
 	}
 
