@@ -1,0 +1,17 @@
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    command: -c log_statement=all
+    ports:
+      - "54321:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER?-POSTGRES_USER needs to be set}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?-POSTGRES_PASSWORD needs to be set}
+      - POSTGRES_DB=${POSTGRES_DB?-POSTGRES_DB needs to be set}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
