@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Starting server...")
 	server := internal.NewServer()
 	r := internal.CreateRouter(server)
 	fmt.Println("Server started on port 80")
