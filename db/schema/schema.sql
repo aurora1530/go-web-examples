@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   password_hash bytea NOT NULL,
   username VARCHAR(255) NOT NULL UNIQUE
