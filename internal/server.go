@@ -73,6 +73,7 @@ func CreateRouter(server Server) *mux.Router {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	r.HandleFunc("/api/auth/create", server.PostApiCreateUser).Methods("POST")
 	r.HandleFunc("/api/auth/login", server.PostApiLoginUser).Methods("POST")
+	r.HandleFunc("/api/auth/logout", server.LogoutUser).Methods("GET")
 
 	return r
 }
