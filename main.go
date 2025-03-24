@@ -3,15 +3,13 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/aurora1530/go-web-examples/internal"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
-	})
-
-	fs := http.FileServer(http.Dir("static/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	http.ListenAndServe(":80", nil)
+	server := internal.NewServer()
+	r := internal.CreateRouter(server)
+	fmt.Println("Server started on port 80")
+	http.ListenAndServe(":80", r)
 }
