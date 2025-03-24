@@ -12,6 +12,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB?-POSTGRES_DB needs to be set}
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./db/schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
 
 volumes:
   db-data:
